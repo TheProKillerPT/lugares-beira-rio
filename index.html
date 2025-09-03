@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8" />
+  <title>Lugares BEIRA-RIO</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: black;
+      color: white;
+      text-align: center;
+      margin-top: 20%;
+    }
+    h1 {
+      font-size: 3em;
+    }
+    #lugares {
+      font-size: 5em;
+      color: orange;
+    }
+  </style>
+</head>
+<body>
+  <h1>BEIRA-RIO</h1>
+  <div id="lugares">Carregando...</div>
+
+  <script>
+    async function fetchLugares() {
+      try {
+        const res = await fetch('https://saba.opendatasoft.com/api/explore/v2.1/catalog/datasets/pt_carga-aparcamientos/records?select=nombre,%20aparcamiento_desc,%20plazas&where=aparcamiento_desc%20=%20"BEIRA-RIO"&limit=20&offset=0');
+        const data = await res.json();
+        const lugares = data.results[0].plazas;
+        document.getElementById('lugares').textContent = lugares + " lugares livres";
+      } catch (err) {
+        document.getElementById('lugares').textContent = "Erro a carregar dados";
+      }
+    }
+
+    fetchLugares();
+    setInterval(fetchLugares, 60000);  // Atualiza a cada 60 segundos
+  </script>
+</body>
+</html>
