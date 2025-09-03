@@ -25,14 +25,19 @@
   <div id="lugares">Carregando...</div>
 
   <script>
+    const apiURL = 'https://saba.opendatasoft.com/api/explore/v2.1/catalog/datasets/pt_carga-aparcamientos/records?select=nombre,%20aparcamiento_desc,%20plazas&where=aparcamiento_desc%20=%20"BEIRA-RIO"&limit=20&offset=0';
+
     async function fetchLugares() {
       try {
-        const res = await fetch('https://saba.opendatasoft.com/api/explore/v2.1/catalog/datasets/pt_carga-aparcamientos/records?select=nombre,%20aparcamiento_desc,%20plazas&where=aparcamiento_desc%20=%20"BEIRA-RIO"&limit=20&offset=0');
-        const data = await res.json();
+        const proxyURL = 'https://api.allorigins.win/get?url=' + encodeURIComponent(apiURL);
+        const res = await fetch(proxyURL);
+        const dataWrapped = await res.json();
+        const data = JSON.parse(dataWrapped.contents);
         const lugares = data.results[0].plazas;
         document.getElementById('lugares').textContent = lugares + " lugares livres";
       } catch (err) {
         document.getElementById('lugares').textContent = "Erro a carregar dados";
+        console.error("Erro ao obter dados:", err);
       }
     }
 
