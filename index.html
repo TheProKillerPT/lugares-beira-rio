@@ -29,10 +29,9 @@
 
     async function fetchLugares() {
       try {
-        const proxyURL = 'https://api.allorigins.win/get?url=' + encodeURIComponent(apiURL);
+        const proxyURL = 'https://corsproxy.io/?' + encodeURIComponent(apiURL);
         const res = await fetch(proxyURL);
-        const dataWrapped = await res.json();
-        const data = JSON.parse(dataWrapped.contents);
+        const data = await res.json(); // Aqui já recebe JSON direto
         const lugares = data.results[0].plazas;
         document.getElementById('lugares').textContent = lugares + " lugares livres";
       } catch (err) {
@@ -42,7 +41,4 @@
     }
 
     fetchLugares();
-    setInterval(fetchLugares, 60000);  // Atualiza a cada 60 segundos
-  </script>
-</body>
-</html>
+    setInterval(fetchLugares, 60000
