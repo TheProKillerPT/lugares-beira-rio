@@ -1,41 +1,32 @@
 <!DOCTYPE html>
 <html lang="pt">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>BEIRA-RIO - Lugares Livres</title>
+  <meta charset="UTF-8">
+  <title>BEIRA-RIO</title>
   <style>
     body {
       background-color: black;
       color: white;
       font-family: Arial, sans-serif;
       text-align: center;
-      padding-top: 100px;
+      margin-top: 100px;
     }
-    h1 {
-      font-size: 50px;
-      margin-bottom: 30px;
-    }
+
     #lugares {
-      font-size: 60px;
+      font-size: 40px;
       color: orange;
     }
   </style>
 </head>
 <body>
   <h1>BEIRA-RIO</h1>
-  <div id="lugares">A carregar...</div>
+  <p id="lugares">A carregar...</p>
 
   <script>
-    const apiURL = 'https://api.allorigins.win/get?url=' + encodeURIComponent(
-      'https://saba.opendatasoft.com/api/explore/v2.1/catalog/datasets/pt_carga-aparcamientos/records?select=nombre,%20aparcamiento_desc,%20plazas&where=aparcamiento_desc=%22BEIRA-RIO%22&limit=20&offset=0'
-    );
-
     async function fetchLugares() {
       try {
-        const res = await fetch(apiURL);
-        const result = await res.json();
-        const data = JSON.parse(result.contents);
+        const res = await fetch("https://teste.duarte-rui07.workers.dev/");
+        const data = await res.json();
 
         if (data && data.results && data.results.length > 0) {
           const lugares = data.results[0].plazas;
@@ -43,15 +34,16 @@
         } else {
           document.getElementById('lugares').textContent = "Sem dados disponíveis";
         }
-
       } catch (err) {
         document.getElementById('lugares').textContent = "Erro a carregar dados";
-        console.error("Erro ao obter dados:", err);
       }
     }
 
+    // Chamar a função ao carregar a página
     fetchLugares();
-    setInterval(fetchLugares, 60 * 1000); // atualiza a cada 1 minuto
+
+    // Atualizar automaticamente a cada 60 segundos
+    setInterval(fetchLugares, 60000);
   </script>
 </body>
 </html>
